@@ -1,1 +1,56 @@
+-- BORRAR TABLAS ANTERIORES (Para empezar limpio)
+DROP TABLE IF EXISTS Detalle_Pedido;
+DROP TABLE IF EXISTS Pedidos;
+DROP TABLE IF EXISTS Productos;
+DROP TABLE IF EXISTS Usuarios;
+GO
 
+-- 1. USUARIOS (Clientes)
+CREATE TABLE Usuarios (
+    ID_Usuario INT IDENTITY(1,1) PRIMARY KEY,
+    Nombre NVARCHAR(100),
+    Email NVARCHAR(100),
+    Telefono NVARCHAR(20),
+    Password_Hash NVARCHAR(100)
+);
+GO
+
+-- 2. PRODUCTOS (El Menú)
+-- Simplificación: La categoría ahora es solo texto (Ej: escribes "Bebida" directamente)
+CREATE TABLE Productos (
+    ID_Producto INT IDENTITY(1,1) PRIMARY KEY,
+    Nombre NVARCHAR(100),
+    Descripcion NVARCHAR(500),
+    Precio DECIMAL(10, 2),
+    Imagen_URL NVARCHAR(MAX),
+    Categoria NVARCHAR(50), -- Aquí está el cambio: ya no es ID, es texto simple.
+    Activo BIT
+);
+GO
+
+-- 3. PEDIDOS (La Venta)
+CREATE TABLE Pedidos (
+    ID_Pedido INT IDENTITY(1,1) PRIMARY KEY,
+    Fecha DATETIME,
+    Estado NVARCHAR(50), -- Pendiente, Entregado
+    Total DECIMAL(10, 2),
+    
+    -- Relación con Usuario
+    ID_Usuario INT,
+    FOREIGN KEY (ID_Usuario) REFERENCES Usuarios(ID_Usuario)
+);
+GO
+
+-- 4. DETALLE_PEDIDO (El contenido del carrito)
+CREATE TABLE Detalle_Pedido (
+    ID_Detalle INT IDENTITY(1,1) PRIMARY KEY,
+    Cantidad INT,
+    Precio_Unitario DECIMAL(10, 2),
+    
+    -- Conecta Pedido con Producto
+    ID_Pedido INT,
+    ID_Producto INT,
+    FOREIGN KEY (ID_Pedido) REFERENCES Pedidos(ID_Pedido),
+    FOREIGN KEY (ID_Producto) REFERENCES Productos(ID_Producto)
+);
+GO
