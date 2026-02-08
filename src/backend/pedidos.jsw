@@ -1,0 +1,57 @@
+// Filename: backend/pedidos.jsw
+import wixData from 'wix-data';
+
+// Función que recibe los datos desde el carrito
+export function crearPedido(datosCliente, carrito, total) {
+    
+    // Armamos el "paquete" de datos
+    const nuevoPedido = {
+        "title": datosCliente.nombre,  // En Wix, el campo principal suele llamarse "title" por defecto
+        "telefono": datosCliente.telefono,
+        "email": datosCliente.email,
+        "resumenPedido": carrito,      // Ej: "2x pollo gong Bao"
+        "totalPagar": total,
+        "estado": "Pendiente",
+        "fecha": new Date()
+    };
+
+    // Guardamos en la colección "Pedidos"
+    return wixData.insert("Pedidos", nuevoPedido)
+        .then((resultado) => {
+            return { exito: true, id: resultado._id };
+        })
+        .catch((error) => {
+            console.error("Error guardando:", error);
+            return { exito: false, error: error.message };
+        });
+}/*********
+ .jsw file
+ *********
+
+ Backend .jsw files contain functions that run on the server side but can be called from page code and frontend files.
+ Use backend functions to keep code private and hidden from a user's browser. More info:
+
+ https://support.wix.com/en/article/velo-web-modules-calling-backend-code-from-the-frontend
+
+**********/
+
+/*** Call the sample multiply function below by copying the following into your page code:
+
+ import { multiply } from 'backend/multiplication';
+
+ $w.onReady(function () {
+     multiply(4, 5).then(product => {
+         console.log(product);
+     })
+     .catch(error => {
+         console.log(error);
+     });
+ });
+
+***/
+
+// Sample backend code in a multiplication.jsw file:
+
+export function multiply(factor1, factor2) {
+   return factor1 * factor2;
+}
