@@ -19,7 +19,7 @@ $w.onReady(function () {
             "title": $w('#input3').value,      // Nombre
             "email": $w('#input2').value,      // Email
             "telefono": $w('#input1').value,   // Teléfono
-            "mensaje": $w('#textbox').value    // Mensaje
+            "mensaje": $w('#textBox1').value    // Mensaje
         };
 
         // 4. Guardamos en la base de datos "Mensajes"
@@ -33,7 +33,7 @@ $w.onReady(function () {
                 $w('#input3').value = "";
                 $w('#input2').value = "";
                 $w('#input1').value = "";
-                $w('#textbox').value = "";
+                $w('#textBox1').value = "";
 
                 // Ocultamos el mensaje de éxito después de 5 segundos
                 setTimeout(() => {
