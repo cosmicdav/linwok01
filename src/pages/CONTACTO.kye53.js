@@ -5,7 +5,7 @@ $w.onReady(function () {
     $w('#text1').hide();
 
     // 2. Evento del botón de enviar (Asegúrate de que su ID sea button1)
-    $w('#button1').onClick(() => {
+    $w('#button5').onClick(() => {
         
         // Verificamos que Email (input2) y Mensaje (textbox) no estén vacíos
         // OJO: Revisa si tu caja de mensaje se llama "textbox" o "textBox1" (con B mayúscula), Wix es estricto con eso.
