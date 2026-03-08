@@ -23,7 +23,7 @@ $w.onReady(function () {
         };
 
         // 4. Guardamos en la base de datos "Mensajes"
-        wixData.insert("Mensajes", nuevoMensaje)
+        wixData.insert("Messages", nuevoMensaje)
             .then((resultado) => {
                 // 5. Mostramos el mensaje de éxito
                 $w('#text1').text = "¡Su mensaje fue enviado con éxito!";
