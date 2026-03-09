@@ -1,39 +1,43 @@
+import wixWindow from 'wix-window';
 import wixData from 'wix-data';
 import wixLocation from 'wix-location';
 
 $w.onReady(function () {
-    // Al presionar pagar con tarjeta
+    // 1. Botón de Tarjeta: Abre la ventana y espera el resultado
     $w('#btnTarjeta').onClick(() => {
-        procesarPedido("Tarjeta de Crédito/Débito");
+        wixWindow.openLightbox("VentanaTarjeta")
+            .then((resultado) => {
+                // Si la ventana mandó "PAGO_OK", guardamos el pedido
+                if (resultado === "PAGO_OK") {
+                    registrarPedido("Tarjeta (Validada)");
+                }
+            });
     });
 
-    // Al presionar pago contra entrega
+    // 2. Botón de Contra Entrega: Guarda directo
     $w('#btnEntrega').onClick(() => {
-        procesarPedido("Pago contra entrega");
+        registrarPedido("Pago contra entrega");
     });
 });
 
-function procesarPedido(metodoElegido) {
-    // Definimos los datos según el esquema SQL de tu Sección 3.7
-    let nuevoPedido = {
-        "title": "Pedido LinWok Bistro", // [cite: 9, 156]
-        "total": "RD$ 1,500.00", // Valor de prueba [cite: 261]
-        "estado": "Pendiente", // Para el módulo KDS [cite: 41, 156]
-        "metodoPago": metodoElegido 
+function registrarPedido(metodo) {
+    let datosPedido = {
+        "title": "Pedido LinWok Bistro",
+        "total": "RD$ 1,500.00",
+        "estado": "Pendiente",
+        "metodoPago": metodo
     };
 
-    // Guardamos en la colección "Pedidos" [cite: 156, 172]
-    wixData.insert("Orders", nuevoPedido)
+    wixData.insert("Pedidos", datosPedido)
         .then(() => {
-            $w('#textoExito').text = "¡Pedido confirmado con éxito! Método: " + metodoElegido;
+            $w('#textoExito').text = "¡Pedido confirmado! Método: " + metodo;
             $w('#textoExito').show();
 
-            // Redirigir al inicio después de 3 segundos para que vean el mensaje
             setTimeout(() => {
                 wixLocation.to("/inicio"); 
             }, 3000);
         })
         .catch((err) => {
-            console.error("Error al procesar el pedido: ", err);
+            console.error("Error al guardar: ", err);
         });
 }
