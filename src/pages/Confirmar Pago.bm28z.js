@@ -23,7 +23,7 @@ function procesarPedido(metodoElegido) {
     };
 
     // Guardamos en la colección "Pedidos" [cite: 156, 172]
-    wixData.insert("Pedidos", nuevoPedido)
+    wixData.insert("Orders", nuevoPedido)
         .then(() => {
             $w('#textoExito').text = "¡Pedido confirmado con éxito! Método: " + metodoElegido;
             $w('#textoExito').show();
