@@ -28,7 +28,7 @@ function registrarPedido(metodo) {
         "metodoPago": metodo
     };
 
-    wixData.insert("Pedidos", datosPedido)
+    wixData.insert("Orders", datosPedido)
         .then(() => {
             $w('#textoExito').text = "¡Pedido confirmado! Método: " + metodo;
             $w('#textoExito').show();
