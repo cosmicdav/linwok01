@@ -1,25 +1,31 @@
 import { cart } from 'wix-stores';
+import wixLocation from 'wix-location';
 import wixWindow from 'wix-window';
 
 $w.onReady(function () {
-    // Al darle al botón rojo de ACEPTAR
+    // Al hacer clic en el botón ACEPTAR de la ventana de dirección
     $w('#buttonAceptar').onClick(async () => {
         try {
-            // 1. Obtenemos el contenido actual del carrito
+            // 1. Obtenemos el carrito actual
             const currentCart = await cart.getCurrentCart();
             
-            // 2. Si hay productos, los eliminamos uno por uno para vaciarlo
+            // 2. Si el carrito tiene productos, los borramos todos
             if (currentCart.lineItems.length > 0) {
                 const removePromises = currentCart.lineItems.map(item => cart.removeProduct(item.id));
                 await Promise.all(removePromises);
-                console.log("Carrito vaciado con éxito");
+                console.log("Carrito vaciado correctamente");
             }
 
-            // 3. Cerramos la ventana y avisamos a la página principal que todo salió bien
-            wixWindow.lightbox.close("PEDIDO_FINALIZADO");
-            
+            // 3. Cerramos la ventana emergente
+            wixWindow.lightbox.close();
+
+            // 4. Redirigimos a la página de confirmación
+            // Nota: Asegúrate de que el enlace (URL) sea /confirmacion-de-pedido
+            wixLocation.to("Confirmacion-de-pedido"); 
+
         } catch (error) {
-            console.error("Error al limpiar el carrito:", error);
+            console.error("Error en el proceso final:", error);
+            // Si hay error, al menos cerramos la ventana
             wixWindow.lightbox.close();
         }
     });
