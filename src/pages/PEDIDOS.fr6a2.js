@@ -2,9 +2,11 @@
 // “Hello, World!” Example: https://learn-code.wix.com/en/article/hello-world
 
 $w.onReady(function () {
-    // Write your JavaScript here
+import wixWindow from 'wix-window';
 
-    // To select an element by ID use: $w('#elementID')
-
-    // Click 'Preview' to run your code
+$w.onReady(function () {
+    // Al hacer clic, abrimos la simulación de pago
+    $w('#btnRealizarPedido').onClick(() => {
+        wixWindow.openLightbox("VentanaPago"); 
+    });
 });
