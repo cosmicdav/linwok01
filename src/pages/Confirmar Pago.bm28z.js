@@ -3,6 +3,14 @@ import wixData from 'wix-data';
 import wixLocation from 'wix-location';
 
 $w.onReady(function () {
+    $w.onReady(function () {
+    console.log("¡La página de pago cargó correctamente!");
+
+    $w('#btnTarjeta').onClick(() => {
+        console.log("Hiciste clic en el botón de Tarjeta");
+        wixWindow.openLightbox("VentanaTarjeta");
+    });
+});
     // 1. Botón de Tarjeta: Abre la ventana y espera el resultado
     $w('#btnTarjeta').onClick(() => {
         wixWindow.openLightbox("VentanaTarjeta")
