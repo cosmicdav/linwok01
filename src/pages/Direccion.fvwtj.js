@@ -21,7 +21,7 @@ $w.onReady(function () {
 
             // 4. Redirigimos a la página de confirmación
             // Nota: Asegúrate de que el enlace (URL) sea /confirmacion-de-pedido
-            wixLocation.to("Confirmacion-de-pedido"); 
+            wixLocation.to("general-5"); 
 
         } catch (error) {
             console.error("Error en el proceso final:", error);
