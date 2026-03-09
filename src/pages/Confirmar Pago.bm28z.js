@@ -2,36 +2,38 @@ import wixData from 'wix-data';
 import wixLocation from 'wix-location';
 
 $w.onReady(function () {
-    // Configuración para el botón de Tarjeta
+    // Al presionar pagar con tarjeta
     $w('#btnTarjeta').onClick(() => {
-        registrarPedido("Tarjeta de Crédito/Débito");
+        procesarPedido("Tarjeta de Crédito/Débito");
     });
 
-    // Configuración para el botón de Contra Entrega
+    // Al presionar pago contra entrega
     $w('#btnEntrega').onClick(() => {
-        registrarPedido("Pago contra entrega");
+        procesarPedido("Pago contra entrega");
     });
 });
 
-function registrarPedido(metodo) {
-    let datosPedido = {
-        "title": "Pedido LinWok",
-        "total": "RD$ 1,500.00", 
-        "estado": "Pendiente",
-        "metodoPago": metodo
+function procesarPedido(metodoElegido) {
+    // Definimos los datos según el esquema SQL de tu Sección 3.7
+    let nuevoPedido = {
+        "title": "Pedido LinWok Bistro", // [cite: 9, 156]
+        "total": "RD$ 1,500.00", // Valor de prueba [cite: 261]
+        "estado": "Pendiente", // Para el módulo KDS [cite: 41, 156]
+        "metodoPago": metodoElegido 
     };
 
-    wixData.insert("Pedidos", datosPedido)
+    // Guardamos en la colección "Pedidos" [cite: 156, 172]
+    wixData.insert("Pedidos", nuevoPedido)
         .then(() => {
-            $w('#textoExito').text = "¡Pedido realizado con éxito!";
+            $w('#textoExito').text = "¡Pedido confirmado con éxito! Método: " + metodoElegido;
             $w('#textoExito').show();
-            
-            // Opcional: Mandarlos a la página de inicio después de 3 segundos
+
+            // Redirigir al inicio después de 3 segundos para que vean el mensaje
             setTimeout(() => {
                 wixLocation.to("/inicio"); 
             }, 3000);
         })
         .catch((err) => {
-            console.error("Error al guardar: " + err);
+            console.error("Error al procesar el pedido: ", err);
         });
 }
